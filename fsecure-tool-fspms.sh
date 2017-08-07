@@ -8,11 +8,12 @@ deblinkfspms="https://download.f-secure.com/corpro/pm_linux/current/fspms_12.40.
 OPTION=$(whiptail --title "Menu Box" --menu "Gestion de la solution F-Secure Policy Manager sur Linux" 15 60 4 \
 "1" "Install/Reinstall/Update" \
 "2" "Port Utilise" \
-"3" "Tester la communication vers les serveurs F-Secure" \
-"4" "Maintenance de la base" \
-"5" "Backup" \
-"6" "Reset admin password" \
-"7" "Update Fsecure Tools" 3>&1 1>&2 2>&3)
+"3" "Installation HotFix" \
+"4" "Tester la communication vers les serveurs F-Secure" \
+"5" "Maintenance de la base" \
+"6" "Backup" \
+"7" "Reset admin password" \
+"8" "Update Fsecure Tools" 3>&1 1>&2 2>&3)
 clear
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
