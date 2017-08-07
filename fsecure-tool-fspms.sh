@@ -11,7 +11,8 @@ OPTION=$(whiptail --title "Menu Box" --menu "Gestion de la solution F-Secure Pol
 "3" "Tester la communication vers les serveurs F-Secure" \
 "4" "Maintenance de la base" \
 "5" "Backup" \
-"6" "Reset admin password" 3>&1 1>&2 2>&3)
+"6" "Reset admin password" \
+"7" "Update Fsecure Tools" 3>&1 1>&2 2>&3)
 clear
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
@@ -23,7 +24,7 @@ if [ $exitstatus = 0 ]; then
         then
         echo "CentOS";
         # Do this
-        elif [ $distri = "Ubuntu" ]
+        elif [ $distri = "Fedora" ]
         then
         echo "Ubuntu";
         # Do that
@@ -35,9 +36,23 @@ if [ $exitstatus = 0 ]; then
            dpkg --add-architecture i386
            apt-get update
            apt-get install libstdc++5 libstdc++5:i386 libstdc++6 libstdc++6:i386
-        cd /tmp/
-            wget -t 5 $deblinkfspmaua
-            wget -t 5 $deblinkfspms
+           cd /tmp/
+           wget -t 5 $deblinkfspmaua
+           wget -t 5 $deblinkfspms
+           #check service fspms
+           #check bdd
+           if [ -e /var/opt/f-secure/fspms/data/h2db/fspms.h2.db ]; then
+           service fspms stop
+           cp /var/opt/f-secure/fspms/data/h2db/fspms.h2.db /var/opt/f-secure/fspms/data/backup/
+           service fspms start
+           
+           #install
+           dpkg -i /tmp/fspmaua_*
+           dpkg -i /tmp/fspms_*
+           #suppression des paquets
+           rm /tmp/fspm*
+          
+           
 
 
         else
