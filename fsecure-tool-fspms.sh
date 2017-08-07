@@ -45,16 +45,12 @@ if [ $exitstatus = 0 ]; then
            service fspms stop
            cp /var/opt/f-secure/fspms/data/h2db/fspms.h2.db /var/opt/f-secure/fspms/data/backup/
            service fspms start
-           
+           fi
            #install
            dpkg -i /tmp/fspmaua_*
            dpkg -i /tmp/fspms_*
            #suppression des paquets
-           rm /tmp/fspm*
-          
-           
-
-
+           rm /tmp/fspm*  
         else
         echo "Unsupported Operating System";
         fi
