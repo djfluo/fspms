@@ -15,7 +15,7 @@ OPTION=$(whiptail --title "Menu Box" --menu "Gestion de la solution F-Secure Pol
 clear
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
-#    echo "Vous avez choisi la distribution : " $OPTION
+
      if [ $OPTION = "1" ]; then
         distri=$(lsb_release -is)
 
@@ -30,11 +30,11 @@ if [ $exitstatus = 0 ]; then
         elif [ $distri = "Debian" ] ||[ $distri = "Ubuntu" ]
         then
         echo "Debian ou Ubuntu";
-echo $deblinkfspmaua
-#           apt-get update
-#           dpkg --add-architecture i386
-#           apt-get update
-            apt-get install libstdc++5 libstdc++5:i386 libstdc++6 libstdc++6:i386
+
+           apt-get update
+           dpkg --add-architecture i386
+           apt-get update
+           apt-get install libstdc++5 libstdc++5:i386 libstdc++6 libstdc++6:i386
         cd /tmp/
             wget -t 5 $deblinkfspmaua
             wget -t 5 $deblinkfspms
