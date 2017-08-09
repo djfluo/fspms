@@ -1,5 +1,22 @@
 #!/bin/bash
 
+
+##auto update 
+autoupdate=$(git diff)
+pid=${$}
+
+if [ -z "$autoupdate" ]
+then
+echo "Up to date"
+else
+whiptail --title "Update" --msgbox "Une mise à jour est disponible, Cliquez sur OK pour continuer" 8 78
+git reset --hard origin/master
+
+whiptail --title "Update" --msgbox "Mise à jour terminé, le script va s'arrêter" 8 78
+kill $pid
+fi
+
+
 #Variable
 deblinkfspmaua="https://download.f-secure.com/corpro/pm_linux/current/fspmaua_9.01.3_amd64.deb"
 deblinkfspms="https://download.f-secure.com/corpro/pm_linux/current/fspms_12.40.81151_amd64.deb"
