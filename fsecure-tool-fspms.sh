@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-##auto update 
+##auto update## 
 autoupdate=$(git diff)
 pid=${$}
 
