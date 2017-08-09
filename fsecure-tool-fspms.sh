@@ -1,6 +1,6 @@
 #!/bin/bash
 
-##
+
 ##auto update 
 autoupdate=$(git diff)
 pid=${$}
