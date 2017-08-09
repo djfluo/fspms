@@ -89,6 +89,44 @@ if [ $exitstatus = 0 ]; then
         done
         echo ""
     fi
+    if [ $OPTION = "4" ]; then
+    echo 'Merci de patientez'
+
+     xmlshavlik=$(host -W1 xml.shavlik.com)
+     xmlshavlikf=$(echo $xmlshavlik |grep "NXDOMAIN\|timed out")
+
+     avanti=$(host -W1 xml.avanti.com)
+     avantif=$(echo $avanti | grep "NXDOMAIN\|timed out")
+
+     orsp=$(host -W1 orsp.f-secure.com)
+     orspf=$(echo $orsp | grep "NXDOMAIN\|timed out")
+
+     fsecure=$(host -W1 f-secure.com)
+     fsecuref=$(echo $fsecure | grep "NXDOMAIN\|timed out")
+
+
+     if [ ${#orspf} -gt 1 ]
+     then
+     echo  "Check orsp.f-secure.com = ERROR"
+     else
+     echo  "Check orsp.f-secure.com = OK"
+     fi
+
+
+     if [ ${#xmlshavlikf} -gt 1 ] || [ ${#avantif} -gt 1 ]
+     then
+     echo  "Check xml.shavlik.com and avanti = ERROR"
+     else
+     echo  "Check xml.shavlik.com and avanti = OK"
+     fi
+
+     if [ ${#fsecuref} -gt 1 ]
+     then
+     echo  "Check f-secure.com = ERROR"
+     else
+     echo  "Check f-secure.com = OK"
+     fi
+    fi
 else
     echo "Cancel"
 fi
