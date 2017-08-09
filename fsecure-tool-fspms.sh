@@ -90,6 +90,10 @@ if [ $exitstatus = 0 ]; then
         echo ""
     fi
     if [ $OPTION = "4" ]; then
+        echo "======================================="
+        echo "========== CHECK SERVERS =============="
+        echo "======================================="
+        echo ""
     echo 'Merci de patientez'
 
      xmlshavlik=$(host -W1 xml.shavlik.com)
