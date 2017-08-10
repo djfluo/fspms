@@ -52,7 +52,7 @@ fi
 
 while [ "$menu" != 1 ]; do
 
-OPTION=$(whiptail --title "Menu Box" --menu "Gestion de la solution F-Secure Policy Manager sur Linux" 15 60 8 \
+OPTION=$(whiptail --title "Menu Box" --menu "Gestion de la solution F-Secure Policy Manager sur Linux" 15 70 9 \
 "1" "Install/Reinstall/Update" \
 "2" "Port Utilise" \
 "3" "Installation HotFix" \
@@ -60,7 +60,8 @@ OPTION=$(whiptail --title "Menu Box" --menu "Gestion de la solution F-Secure Pol
 "5" "Maintenance de la base" \
 "6" "Backup" \
 "7" "Reset admin password" \
-"8" "Forcer les mises à jours Policy Manager" 3>&1 1>&2 2>&3)
+"8" "Forcer les mises à jours Policy Manager" \
+"9" "!!Quitter le script!!" 3>&1 1>&2 2>&3)
 clear
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
