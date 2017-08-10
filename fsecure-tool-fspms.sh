@@ -63,8 +63,8 @@ OPTION=$(whiptail --title "Menu Box" --menu "Gestion de la solution F-Secure Pol
 "8" "Forcer les mises à jours Policy Manager" \
 "9" "!!Quitter le script!!" 3>&1 1>&2 2>&3)
 clear
-exitstatus=$?
-if [ $exitstatus = 0 ]; then
+#exitstatus=$?
+#if [ $exitstatus = 0 ]; then
 
      if [ "$OPTION" = "1" ]; then
         distri=$(lsb_release -is)
@@ -263,7 +263,7 @@ if [ $exitstatus = 0 ]; then
   if [ "$OPTION" = "9" ]; then
 	menu=1
   fi
-else
-    echo "Cancel"
-fi
+#else
+#    echo "Cancel"
+#fi
 done
