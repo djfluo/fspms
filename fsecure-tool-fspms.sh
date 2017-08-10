@@ -50,6 +50,7 @@ else
     whiptail --title "Update" --msgbox "Attention ce script n'a pas d'update automatique sans github, si vous avez réalisé un clone vous ne devez pas déplacer le script" 8 78
 fi
 
+while [ "$menu" != 1 ]; do
 
 OPTION=$(whiptail --title "Menu Box" --menu "Gestion de la solution F-Secure Policy Manager sur Linux" 15 60 8 \
 "1" "Install/Reinstall/Update" \
@@ -257,6 +258,9 @@ if [ $exitstatus = 0 ]; then
       else
       whiptail --title "Hotfix" --msgbox "Please install Policy Manager server first" 8 78
       fi
+  fi
+  if [ "$OPTION" = "9" ]; then
+	menu=1
   fi
 else
     echo "Cancel"
