@@ -108,32 +108,73 @@ if [ $exitstatus = 0 ]; then
         echo "======================================="
         echo ""
 
-        cat "/etc/opt/f-secure/fspms/fspms.conf" | while  read ligne ; do
-
+        filename="/etc/opt/f-secure/fspms/fspms.conf"
+        while read -r ligne
+        do
         NomProtocole=$(echo $ligne|cut -d"=" -f1)
 
         if [ $NomProtocole = hostModuleHttpsPort ]; then
-        hosthttps=$(echo $ligne|cut -d"=" -f2)
-        echo "Port de communication https : "$hosthttps
+		hosthttpscp=$ligne
+        hosthttps=$NomProtocole
+        hosthttps2=$(echo $ligne|cut -d'"' -f2)
         fi
+
         if [ $NomProtocole = hostModulePort ]; then
-        hostport=$(echo $ligne|cut -d"=" -f2)
-        echo "Port de communication http : "$hostport
+        hostportcp=$ligne
+        hostport=$NomProtocole
+        hostport2=$(echo $ligne|cut -d'"' -f2)
         fi
+
         if [ $NomProtocole = adminModulePort ]; then
         hostadmin=$(echo $ligne|cut -d"=" -f2)
         echo "Port de communication d'administration : "$hostadmin
+        hostadmin=$(echo $ligne|cut -d'"' -f2)
         fi
+
         if [ $NomProtocole = adminExtensionLocalhostRestricted ]; then
         hostrestrict=$(echo $ligne|cut -d"=" -f2)
-         echo "Restreindre l'accès de la console en local uniquement : "$hostrestrict
+        echo "Restreindre l'accès de la console en local uniquement : "$hostrestrict
+        hostrestrict=$(echo $ligne|cut -d'"' -f2)
         fi
         if [ $NomProtocole = webReportingPort ]; then
         hostweb=$(echo $ligne|cut -d"=" -f2)
         echo "Port Web Reporting : "$hostweb
-        fi
-        done
+        hostweb=$(echo $ligne|cut -d'"' -f2)
+		fi
+        done < "$filename"
         echo ""
+                        modifpara=$(whiptail --title "Check port" --menu "Choisissez le paramètre à modifier" 15 80 5 \
+                        "1" "Port de communication http : "$hostport2 \
+                        "2" "Port de communication https : "$hosthttps2 \
+                        "3" "Port de communication d'administration : "$hostadmin \
+                        "4" "Restreindre l'accès de la console en local uniquement : "$hostrestrict \
+                        "5" "Port Web Reporting : "$hostweb 3>&1 1>&2 2>&3)
+                        exitpara=$?
+                        if [ $exitpara = 0 ]; then
+                           if [ "$modifpara" = "1" ]; then
+                                Rehostport=$(whiptail --title "Change config" --inputbox "Quel est le nouveau port que vous souhaitez appliquer ?" 10 60 $hostport2 3>&1 1>&2 2>&3)
+                                exits=$?
+                                if [ $exits = 0 ]; then
+                                        remplace=$hostport"="'"'$Rehostport'"'
+                                        echo $hostportcp
+                                        sed -i 's/'$hostportcp'/'$remplace'/g' $filename
+                                else
+                                echo "Cancel"
+                                fi
+							if [ "$modifpara" = "2" ]; then
+                                Rehosthttps=$(whiptail --title "Change config" --inputbox "Quel est le nouveau port que vous souhaitez appliquer pour le protocol HTTPS ?" 10 60 $hosthttps2 3>&1 1>&2 2>&3)
+                                exits=$?
+                                if [ $exits = 0 ]; then
+                                        remplace=$hosthttps"="'"'$Rehosthttps'"'
+                                        sed -i 's/'$hosthttpscp'/'$remplace'/g' $filename
+                                else
+                                echo "Cancel"
+                                fi
+                          fi
+                        else
+                          echo "vous avez annulé"
+                        fi
+
     fi
     if [ "$OPTION" = "4" ]; then
         echo "======================================="
