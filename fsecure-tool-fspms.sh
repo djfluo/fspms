@@ -205,6 +205,8 @@ if [ $exitstatus = 0 ]; then
 	    	#delete zip and unzip folder
 	   	rm -f /tmp/fspm*.zip
 	   	rm -rf /tmp/fspm*
+		#add new version information
+		echo "12.40.81153" > /opt/f-secure/fspms/version.txt
 	   	#start service
 	   	/etc/init.d/fspms start
        else
