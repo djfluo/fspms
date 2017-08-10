@@ -1,7 +1,7 @@
 #!/bin/bash
 
 #Variable
-hotfix12.40="https://download.f-secure.com/corpro/pm_linux/current/fspm-12.40-linux-hotfix-1.zip"
+hotfix1240="https://download.f-secure.com/corpro/pm_linux/current/fspm-12.40-linux-hotfix-1.zip"
 
 #FSPMS DEB
 deblinkfspmaua="https://download.f-secure.com/corpro/pm_linux/current/fspmaua_9.01.3_amd64.deb"
@@ -197,7 +197,7 @@ if [ $exitstatus = 0 ]; then
 		
    		#download hotfix for 12.40.81151
    		cd /tmp
-   		wget $hotfix12.40
+   		wget $hotfix1240
 		
    		#unzip on /tmp
    		unzip fspm*.zip
