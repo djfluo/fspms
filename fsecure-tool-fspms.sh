@@ -47,7 +47,7 @@ deblinkfspmaua="https://download.f-secure.com/corpro/pm_linux/current/fspmaua_9.
 deblinkfspms="https://download.f-secure.com/corpro/pm_linux/current/fspms_12.40.81151_amd64.deb"
 
 
-OPTION=$(whiptail --title "Menu Box" --menu "Gestion de la solution F-Secure Policy Manager sur Linux" 15 60 4 \
+OPTION=$(whiptail --title "Menu Box" --menu "Gestion de la solution F-Secure Policy Manager sur Linux" 15 60 8 \
 "1" "Install/Reinstall/Update" \
 "2" "Port Utilise" \
 "3" "Installation HotFix" \
@@ -55,12 +55,12 @@ OPTION=$(whiptail --title "Menu Box" --menu "Gestion de la solution F-Secure Pol
 "5" "Maintenance de la base" \
 "6" "Backup" \
 "7" "Reset admin password" \
-"8" "Update Fsecure Tools" 3>&1 1>&2 2>&3)
+"8" "Forcer les mises à jours Policy Manager" 3>&1 1>&2 2>&3)
 clear
 exitstatus=$?
 if [ $exitstatus = 0 ]; then
 
-     if [ $OPTION = "1" ]; then
+     if [ "$OPTION" = "1" ]; then
         distri=$(lsb_release -is)
 
         if [ $distri = "CentOS" ]
@@ -98,7 +98,7 @@ if [ $exitstatus = 0 ]; then
         echo "Unsupported Operating System";
         fi
     fi
-    if [ $OPTION = "2" ]; then
+    if [ "$OPTION" = "2" ]; then
         echo "======================================="
         echo "====== PORTS F-SECURE FSPMS ==========="
         echo "======================================="
@@ -131,7 +131,7 @@ if [ $exitstatus = 0 ]; then
         done
         echo ""
     fi
-    if [ $OPTION = "4" ]; then
+    if [ "$OPTION" = "4" ]; then
         echo "======================================="
         echo "========== CHECK SERVERS =============="
         echo "======================================="
