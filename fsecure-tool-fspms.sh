@@ -184,7 +184,7 @@ if [ $exitstatus = 0 ]; then
         echo "======================================="
         echo ""    
 
-   if [-e /opt/f-secure/fspms/version.txt ]
+   if [ -e "/opt/f-secure/fspms/version.txt" ]
    then
       version=$(cat /opt/f-secure/fspms/version.txt)
 
