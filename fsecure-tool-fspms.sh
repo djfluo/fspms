@@ -12,7 +12,7 @@ fi
 autoupdate=$(git diff)
 pid=${$}
 
-#check update on github
+##check update on github##
 gitpull=$(git pull)
 if [ "$gitpull" != "Already up-to-date." ]
 then
