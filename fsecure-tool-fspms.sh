@@ -182,47 +182,38 @@ if [ $exitstatus = 0 ]; then
         echo "======================================="
         echo "============ HOTFIX INSTALL ==========="
         echo "======================================="
-        echo ""    
+        echo ""
 
    if [ -e "/opt/f-secure/fspms/version.txt" ]
    then
       version=$(cat /opt/f-secure/fspms/version.txt)
 
-	   if [ "$version" = "12.40.81151"]
+	if [ "$version" = "12.40.81151"]
    	then
-         
-	   	echo "installation hotfixe"
+		echo "installation hotfixe"
 	   	#Install unzip
 	   	apt-get install unzip -y
-		
    		#download hotfix for 12.40.81151
    		cd /tmp
    		wget $hotfix1240
-		
    		#unzip on /tmp
    		unzip fspm*.zip
-		
 	   	#stop service
 	   	/etc/init.d/fspms stop
-		
 	   	#copy hotfix
-	   	cp -f /tmp/fspm*/fspms-webapp-1-SNAPSHOT.jar /opt/f-secure/fspms/lib/ 
-		
+	   	cp -f /tmp/fspm*/fspms-webapp-1-SNAPSHOT.jar /opt/f-secure/fspms/lib/
 	    	#delete zip and unzip folder
 	   	rm -f /tmp/fspm*.zip
 	   	rm -rf /tmp/fspm*
-		
-	   	#start service 
+	   	#start service
 	   	/etc/init.d/fspms start
        else
            whiptail --title "Hotfix" --msgbox "Hotfix not available for this version of Policy Manager Server" 8 78
        fi
-
       else
       whiptail --title "Hotfix" --msgbox "Please install Policy Manager server first" 8 78
       fi
   fi
-    
 else
     echo "Cancel"
 fi
