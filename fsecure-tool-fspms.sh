@@ -140,7 +140,7 @@ if [ $exitstatus = 0 ]; then
         hostweb=$(echo $ligne|cut -d"=" -f2)
         echo "Port Web Reporting : "$hostweb
         hostweb=$(echo $ligne|cut -d'"' -f2)
-		fi
+	fi
         done < "$filename"
         echo ""
                         modifpara=$(whiptail --title "Check port" --menu "Choisissez le paramètre à modifier" 15 80 5 \
@@ -161,7 +161,8 @@ if [ $exitstatus = 0 ]; then
                                 else
                                 echo "Cancel"
                                 fi
-							if [ "$modifpara" = "2" ]; then
+			   fi
+			   if [ "$modifpara" = "2" ]; then
                                 Rehosthttps=$(whiptail --title "Change config" --inputbox "Quel est le nouveau port que vous souhaitez appliquer pour le protocol HTTPS ?" 10 60 $hosthttps2 3>&1 1>&2 2>&3)
                                 exits=$?
                                 if [ $exits = 0 ]; then
