@@ -188,7 +188,7 @@ if [ $exitstatus = 0 ]; then
    then
       version=$(cat /opt/f-secure/fspms/version.txt)
 
-	if [ "$version" = "12.40.81151"]
+	if [ "$version" = "12.40.81151" ]
    	then
 		echo "installation hotfixe"
 	   	#Install unzip
