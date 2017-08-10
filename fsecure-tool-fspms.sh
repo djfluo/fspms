@@ -1,10 +1,26 @@
 #!/bin/bash
 
+FILE="/tmp/out.$$"
+GREP="/bin/grep"
+# Only root can use this script
+if [ "$(id -u)" != "0" ]; then
+   echo "This script must be run as root" 1>&2
+   exit 1
+fi
 
 ##auto update## 
 autoupdate=$(git diff)
 pid=${$}
 
+#check update on github
+gitpull=$(git pull)
+if [ "$gitpull" != "Already up-to-date." ]
+then
+whiptail --title "Example Dialog" --msgbox "Une mise à jour à été appliqué, le script va s'arrêter" 8 78
+kill $pid
+fi
+
+#check if the script has different (local edit)
 if [ -z "$autoupdate" ]
 then
 echo "Up to date"
