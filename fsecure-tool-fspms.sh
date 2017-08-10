@@ -1,5 +1,14 @@
 #!/bin/bash
 
+#Variable
+hotfix12.40="https://download.f-secure.com/corpro/pm_linux/current/fspm-12.40-linux-hotfix-1.zip"
+
+#FSPMS DEB
+deblinkfspmaua="https://download.f-secure.com/corpro/pm_linux/current/fspmaua_9.01.3_amd64.deb"
+deblinkfspms="https://download.f-secure.com/corpro/pm_linux/current/fspms_12.40.81151_amd64.deb"
+
+
+
 FILE="/tmp/out.$$"
 GREP="/bin/grep"
 # Only root can use this script
@@ -40,11 +49,6 @@ then
 else
     whiptail --title "Update" --msgbox "Attention ce script n'a pas d'update automatique sans github, si vous avez réalisé un clone vous ne devez pas déplacer le script" 8 78
 fi
-
-
-#Variable
-deblinkfspmaua="https://download.f-secure.com/corpro/pm_linux/current/fspmaua_9.01.3_amd64.deb"
-deblinkfspms="https://download.f-secure.com/corpro/pm_linux/current/fspms_12.40.81151_amd64.deb"
 
 
 OPTION=$(whiptail --title "Menu Box" --menu "Gestion de la solution F-Secure Policy Manager sur Linux" 15 60 8 \
@@ -173,6 +177,52 @@ if [ $exitstatus = 0 ]; then
      echo  "Check f-secure.com = OK"
      fi
     fi
+    
+ if [ "$OPTION" = "3" ]; then
+        echo "======================================="
+        echo "============ HOTFIX INSTALL ==========="
+        echo "======================================="
+        echo ""    
+
+   if [-e /opt/f-secure/fspms/version.txt ]
+   then
+      version=$(cat /opt/f-secure/fspms/version.txt)
+
+	   if [ "$version" = "12.40.81151"]
+   	then
+         
+	   	echo "installation hotfixe"
+	   	#Install unzip
+	   	apt-get install unzip -y
+		
+   		#download hotfix for 12.40.81151
+   		cd /tmp
+   		wget $hotfix12.40
+		
+   		#unzip on /tmp
+   		unzip fspm*.zip
+		
+	   	#stop service
+	   	/etc/init.d/fspms stop
+		
+	   	#copy hotfix
+	   	cp -f /tmp/fspm*/fspms-webapp-1-SNAPSHOT.jar /opt/f-secure/fspms/lib/ 
+		
+	    	#delete zip and unzip folder
+	   	rm -f /tmp/fspm*.zip
+	   	rm -rf /tmp/fspm*
+		
+	   	#start service 
+	   	/etc/init.d/fspms start
+       else
+           whiptail --title "Hotfix" --msgbox "Hotfix not available for this version of Policy Manager Server" 8 78
+       fi
+
+      else
+      whiptail --title "Hotfix" --msgbox "Please install Policy Manager server first" 8 78
+      fi
+  fi
+    
 else
     echo "Cancel"
 fi
