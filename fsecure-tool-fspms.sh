@@ -9,27 +9,36 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 ##auto update## 
-autoupdate=$(git diff)
-pid=${$}
 
-##check update on github##
-gitpull=$(git pull)
-if [ "$gitpull" != "Already up-to-date." ]
-then
-whiptail --title "Example Dialog" --msgbox "Une mise à jour à été appliqué, le script va s'arrêter" 8 78
-kill $pid
-fi
+DIR="$( cd "$( dirname "$0" )" && pwd )"
+configfile=$(cat $DIR/.git/config | grep "https://github.com/djfluo/fspms")
 
-#check if the script has different (local edit)
-if [ -z "$autoupdate" ]
+if [ ${#configfile} -gt "1" ]
 then
-echo "Up to date"
+
+   autoupdate=$(git diff)
+   pid=${$}
+
+   ##check update on github##
+   gitpull=$(git pull)
+   if [ "$gitpull" != "Already up-to-date." ]
+     then
+      whiptail --title "Example Dialog" --msgbox "Une mise à jour à été appliqué, le script va s'arrêter" 8 78
+      kill $pid
+     fi
+
+   #check if the script has different (local edit)
+   if [ -z "$autoupdate" ]
+     then
+      echo "Up to date"
+     else
+      whiptail --title "Update" --msgbox "Une mise à jour est disponible, Cliquez sur OK pour continuer" 8 78
+      git reset --hard origin/master
+      whiptail --title "Update" --msgbox "Mise à jour terminé, le script va s'arrêter" 8 78
+      kill $pid
+   fi
 else
-whiptail --title "Update" --msgbox "Une mise à jour est disponible, Cliquez sur OK pour continuer" 8 78
-git reset --hard origin/master
-
-whiptail --title "Update" --msgbox "Mise à jour terminé, le script va s'arrêter" 8 78
-kill $pid
+    whiptail --title "Update" --msgbox "Attention ce script n'a pas d'update automatique sans github, si vous avez réalisé un clone vous ne devez pas déplacer le script" 8 78
 fi
 
 
