@@ -111,6 +111,7 @@ clear
            	#suppression des paquets
            	rm -f /tmp/fspm*  
 		if [ "$reup" = 1 ]; then
+		/etc/init.d/fspms stop
 		/opt/f-secure/fspms/bin/fspms-db-maintenance-tool
 		fi
 		/etc/init.d/fspms start
