@@ -79,7 +79,7 @@ clear
 	done < "$filename"
 	
 
-        if [ $distri = "centos" ] || [ $distri = '"centos"' ] libstdc++6
+        if [ "$distri" = "centos" ] || [ "$distri" = '"centos"' ] libstdc++6
         then
         echo "centoS";
 		yum update
@@ -102,11 +102,11 @@ clear
            	rm -f /tmp/fspm*  
 		/opt/f-secure/fspms/bin/fspms-config
 		
-        elif [ $distri = "Fedora" ]
+        elif [ "$distri" = "Fedora" ]
         then
         echo "Fedora";
         # Do that
-        elif [ $distri = "debian" ] ||[ $distri = "ubuntu" ]
+        elif [ "$distri" = "debian" ] || [ "$distri" = "ubuntu" ]
         then
         echo "Debian ou Ubuntu";
 
