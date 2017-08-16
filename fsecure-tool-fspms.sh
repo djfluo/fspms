@@ -79,7 +79,7 @@ clear
 	done < "$filename"
 	
 
-        if [ "$distri" = "centos" ] || [ "$distri" = '"centos"' ] libstdc++6
+        if [ "$distri" = "centos" ] || [ "$distri" = '"centos"' ]
         then
         echo "centoS";
 		yum update
