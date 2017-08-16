@@ -92,14 +92,15 @@ clear
               	#check bdd
            	if [ -e /var/opt/f-secure/fspms/data/h2db/fspms.h2.db ]; then
            	/etc/init.d/fspms stop
-	   	cp /var/opt/f-secure/fspms/data/h2db/fspms.h2.db /var/opt/f-secure/fspms/data/backup/
+		NOW=$(date +"%m-%d-%Y-%T")
+	   	cp /var/opt/f-secure/fspms/data/h2db/fspms.h2.db /var/opt/f-secure/fspms/data/backup/fspms.$NOW.h2.db
            	/etc/init.d/fspms start
            	fi
            	#install
            	rpm -i /tmp/fspmaua_*
            	rpm -i /tmp/fspms_*
            	#suppression des paquets
-           	rm -f /tmp/fspm*  
+           	#rm -f /tmp/fspm*  
 		/opt/f-secure/fspms/bin/fspms-config
 		
         elif [ "$distri" = "Fedora" ]
