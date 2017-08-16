@@ -101,6 +101,7 @@ clear
            	rpm -i /tmp/fspms_*
            	#suppression des paquets
            	#rm -f /tmp/fspm*  
+		/etc/init.d/fspms start
 		/opt/f-secure/fspms/bin/fspms-config
 		
         elif [ "$distri" = "Fedora" ]
