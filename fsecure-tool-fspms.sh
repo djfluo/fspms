@@ -130,20 +130,29 @@ clear
            apt-get update
            apt-get install libstdc++5 libstdc++5:i386 libstdc++6 libstdc++6:i386
            cd /tmp/
+	   rm -f /tmp/fspm*
            wget -t 5 $deblinkfspmaua
            wget -t 5 $deblinkfspms
            #check service fspms
            #check bdd
            if [ -e /var/opt/f-secure/fspms/data/h2db/fspms.h2.db ]; then
+	   reup=1
            /etc/init.d/fspms stop
-	   cp /var/opt/f-secure/fspms/data/h2db/fspms.h2.db /var/opt/f-secure/fspms/data/backup/
+	   NOW=$(date +"%m-%d-%Y-%T")
+	   cp /var/opt/f-secure/fspms/data/h2db/fspms.h2.db /var/opt/f-secure/fspms/data/backup/fspms.$NOW.h2.db
            /etc/init.d/fspms start
+	   else
+	   reup=0
            fi
            #install
            dpkg -i /tmp/fspmaua_*
            dpkg -i /tmp/fspms_*
            #suppression des paquets
            rm /tmp/fspm*  
+	   if [ "$reup" = 1 ]; then
+	   /etc/init.d/fspms stop
+	   /opt/f-secure/fspms/bin/fspms-db-maintenance-tool
+	   fi
 	   /etc/init.d/fspms start
 	   /opt/f-secure/fspms/bin/fspms-config
         else
@@ -204,9 +213,9 @@ clear
                                 exits=$?
                                 if [ $exits = 0 ]; then
                                         remplace=$hostport"="'"'$Rehostport'"'
-                                        echo $hostportcp
-                                        sed -i 's/'$hostportcp'/'$remplace'/g' $filename
+                 			sed -i 's/'$hostportcp'/'$remplace'/g' $filename
 					/etc/init.d/fspms stop
+					/etc/init.d/fspms start
                                 else
                                 echo "Cancel"
                                 fi
@@ -217,6 +226,8 @@ clear
                                 if [ $exits = 0 ]; then
                                         remplace=$hosthttps"="'"'$Rehosthttps'"'
                                         sed -i 's/'$hosthttpscp'/'$remplace'/g' $filename
+					/etc/init.d/fspms stop
+					/etc/init.d/fspms start
                                 else
                                 echo "Cancel"
                                 fi
