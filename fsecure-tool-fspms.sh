@@ -3,11 +3,11 @@
 #Variable
 hotfix1240="https://download.f-secure.com/corpro/pm_linux/current/fspm-12.40-linux-hotfix-1.zip"
 
-#FSPMS DEB
+#FSPMS DEB / RPM
 deblinkfspmaua="https://download.f-secure.com/corpro/pm_linux/current/fspmaua_9.01.3_amd64.deb"
 deblinkfspms="https://download.f-secure.com/corpro/pm_linux/current/fspms_12.40.81151_amd64.deb"
-
-
+rpmlinkfspmaua="https://download.f-secure.com/corpro/pm_linux/current/fspmaua-9.01.3-1.x86_64.rpm"
+rpmlinkfspms="https://download.f-secure.com/corpro/pm_linux/current/fspms-12.40.81151-1.x86_64.rpm"
 
 FILE="/tmp/out.$$"
 GREP="/bin/grep"
@@ -67,17 +67,46 @@ clear
 #if [ $exitstatus = 0 ]; then
 
      if [ "$OPTION" = "1" ]; then
-        distri=$(lsb_release -is)
+       # distri=$(lsb_release -is)
+	
+	filename="/etc/os-release"
+        while read -r ligne
+        do
+        catname=$(echo $ligne|cut -d"=" -f1)
+        if [ "$catname" = "ID" ]; then
+	distri=$(echo $ligne|cut -d"=" -f2)
+	fi
+	done < "$filename"
+	
 
-        if [ $distri = "CentOS" ]
+        if [ $distri = "centos" ] || [ $distri = '"centos"' ] libstdc++6
         then
-        echo "CentOS";
-        # Do this
+        echo "centoS";
+		yum update
+		yum install libstd++.i686 -y
+		yum install wget -y
+		yum install net-tools -y
+		cd /tmp/
+           	wget -t 5 $rpmlinkfspmaua
+           	wget -t 5 $rpmlinkfspms
+              	#check bdd
+           	if [ -e /var/opt/f-secure/fspms/data/h2db/fspms.h2.db ]; then
+           	/etc/init.d/fspms stop
+	   	cp /var/opt/f-secure/fspms/data/h2db/fspms.h2.db /var/opt/f-secure/fspms/data/backup/
+           	/etc/init.d/fspms start
+           	fi
+           	#install
+           	rpm -i /tmp/fspmaua_*
+           	rpm -i /tmp/fspms_*
+           	#suppression des paquets
+           	rm -f /tmp/fspm*  
+		/opt/f-secure/fspms/bin/fspms-config
+		
         elif [ $distri = "Fedora" ]
         then
-        echo "Ubuntu";
+        echo "Fedora";
         # Do that
-        elif [ $distri = "Debian" ] ||[ $distri = "Ubuntu" ]
+        elif [ $distri = "debian" ] ||[ $distri = "ubuntu" ]
         then
         echo "Debian ou Ubuntu";
 
@@ -91,15 +120,16 @@ clear
            #check service fspms
            #check bdd
            if [ -e /var/opt/f-secure/fspms/data/h2db/fspms.h2.db ]; then
-           service fspms stop
-           cp /var/opt/f-secure/fspms/data/h2db/fspms.h2.db /var/opt/f-secure/fspms/data/backup/
-           service fspms start
+           /etc/init.d/fspms stop
+	   cp /var/opt/f-secure/fspms/data/h2db/fspms.h2.db /var/opt/f-secure/fspms/data/backup/
+           /etc/init.d/fspms start
            fi
            #install
            dpkg -i /tmp/fspmaua_*
            dpkg -i /tmp/fspms_*
            #suppression des paquets
            rm /tmp/fspm*  
+	   /opt/f-secure/fspms/bin/fspms-config
         else
         echo "Unsupported Operating System";
         fi
