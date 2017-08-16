@@ -91,16 +91,22 @@ clear
            	wget -t 5 $rpmlinkfspms
               	#check bdd
            	if [ -e /var/opt/f-secure/fspms/data/h2db/fspms.h2.db ]; then
+		reup=1
            	/etc/init.d/fspms stop
 		NOW=$(date +"%m-%d-%Y-%T")
 	   	cp /var/opt/f-secure/fspms/data/h2db/fspms.h2.db /var/opt/f-secure/fspms/data/backup/fspms.$NOW.h2.db
            	/etc/init.d/fspms start
+		else
+		reup=0
            	fi
            	#install
            	rpm -i /tmp/fspmaua_*
            	rpm -i /tmp/fspms_*
            	#suppression des paquets
-           	#rm -f /tmp/fspm*  
+           	rm -f /tmp/fspm*  
+		if [ "$reup" = 1 ]; then
+		/opt/f-secure/fspms/bin/fspms-db-maintenance-tool
+		fi
 		/etc/init.d/fspms start
 		/opt/f-secure/fspms/bin/fspms-config
 		
@@ -131,6 +137,7 @@ clear
            dpkg -i /tmp/fspms_*
            #suppression des paquets
            rm /tmp/fspm*  
+	   /etc/init.d/fspms start
 	   /opt/f-secure/fspms/bin/fspms-config
         else
         echo "Unsupported Operating System";
@@ -192,6 +199,7 @@ clear
                                         remplace=$hostport"="'"'$Rehostport'"'
                                         echo $hostportcp
                                         sed -i 's/'$hostportcp'/'$remplace'/g' $filename
+					/etc/init.d/fspms stop
                                 else
                                 echo "Cancel"
                                 fi
