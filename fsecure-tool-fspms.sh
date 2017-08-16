@@ -9,6 +9,10 @@ deblinkfspms="https://download.f-secure.com/corpro/pm_linux/current/fspms_12.40.
 rpmlinkfspmaua="https://download.f-secure.com/corpro/pm_linux/current/fspmaua-9.01.3-1.x86_64.rpm"
 rpmlinkfspms="https://download.f-secure.com/corpro/pm_linux/current/fspms-12.40.81151-1.x86_64.rpm"
 
+vdebfspmaua=$(echo $deblinkfspmaua|cut -d"/" -f2)
+vrpmfspms=$(echo $rpmlinkfspms|cut -d"/" -f2)
+
+
 FILE="/tmp/out.$$"
 GREP="/bin/grep"
 # Only root can use this script
@@ -87,6 +91,7 @@ clear
 		yum install wget -y
 		yum install net-tools -y
 		cd /tmp/
+           	rm -f /tmp/fspm*
            	wget -t 5 $rpmlinkfspmaua
            	wget -t 5 $rpmlinkfspms
               	#check bdd
@@ -101,7 +106,7 @@ clear
            	fi
            	#install
            	rpm -i /tmp/fspmaua_*
-           	rpm -i /tmp/fspms_*
+           	rpm -i /tmp/$vrpmfspms
            	#suppression des paquets
            	rm -f /tmp/fspm*  
 		if [ "$reup" = 1 ]; then
