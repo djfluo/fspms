@@ -10,7 +10,8 @@ rpmlinkfspmaua="https://download.f-secure.com/corpro/pm_linux/current/fspmaua-9.
 rpmlinkfspms="https://download.f-secure.com/corpro/pm_linux/current/fspms-12.40.81151-1.x86_64.rpm"
 
 vdebfspmaua=$(echo $deblinkfspmaua|cut -d"/" -f7)
-vrpmfspms=$(echo $rpmlinkfspms|cut -d"/" -f6)
+vrpmfspmaua=$(echo $rpmlinkfspmaua|cut -d"/" -f7)
+vrpmfspms=$(echo $rpmlinkfspms|cut -d"/" -f7)
 
 
 FILE="/tmp/out.$$"
@@ -105,9 +106,7 @@ clear
 		reup=0
            	fi
            	#install
-		echo $vdebfspmaua
-		echo $vrpmfspms
-           	rpm -i /tmp/fspmaua_*
+           	rpm -i /tmp/$vrpmfspmaua
            	rpm -i /tmp/$vrpmfspms
            	#suppression des paquets
            	rm -f /tmp/fspm*  
